@@ -4,16 +4,21 @@
 This repository contains the methods and codes to solve the questions of the `First Partial`of the **course `Data Engineering Zoomcamp`cohort-2025**
 The repository has the following structure:
 ```
+```tree
 .
 ├── data
 │   ├── green_tripdata_2019-10.csv
 │   └── taxi_zone_lookup.csv
 ├── docker_commands
 ├── docker-compose.yaml
+├── img
+│   ├── query_2.png
+│   ├── query_3.png
+│   ├── query_4.png
+│   └── resultado query.png
 ├── README.md
 ├── requirements.txt
 ├── sql
-├── taxi_pg_data
 └── upload_data.ipynb
 
 ```
@@ -22,9 +27,10 @@ The repository has the following structure:
     * `taxi_zone_lookup.csv`: Zones data file.
 * `docker_commands`: Docker code used in the analysis and study process.
 * `docker-compose.yaml`: File to define and run multi-container Docker applications in this case Postgresql and pgadmin.
+* `ìmg`: images
+* `README.md`: This file
 * `requirements.txt`: Dependencies of a project's packages.
 * `sql`: File with SQL queries used in practice.
-* `taxi_pg_data`: folder for data persistence for docker postgreSQL.
 * `upload_data.ipynb`: Notebook where the code for reading, transforming and loading data into databases was developed.
 
 ## Quiz Answers:
@@ -116,7 +122,8 @@ WHERE
 
 ```
 Output:
-![Up to 1 mile: 104802 | 1-3 miles: 198924 | 3-7 miles: 109603 | 7-10 miles: 27678 | Over 10 miles: 35189](<resultado query.png>)
+
+![Up to 1 mile: 104802 | 1-3 miles: 198924 | 3-7 miles: 109603 | 7-10 miles: 27678 | Over 10 miles: 35189](img/resultado%20query.png)
 
 *`Note`*: The query carried out takes as a premise the services opened and closed between the dates October 1st 2019 (inclusive) and November 1st 2019 (exclusive), leaving out of the evaluation those services that opened on October 31st but were closed on November 1st.
 
@@ -141,6 +148,10 @@ WHERE
 	trip_distance = (SELECT max(trip_distance)
 					 FROM green_tripdata_2019_10)
 ```
+Output:
+
+![2019-10-31 23:23:41](img/query_2.png)
+
 * ## Answer: 2019-10-31
 
 ### Question 5. Three biggest pickup zones
@@ -168,6 +179,10 @@ GROUP BY z."Zone"
 HAVING SUM(gt."total_amount") > 13000
 ORDER BY SUM(gt."total_amount") DESC;
 ```
+Output:
+
+![East Harlem North, East Harlem South, Morningside Heights](img/query_3.png)
+
 * ## Answer: East Harlem North, East Harlem South, Morningside Heights
 
 ### Question 6. Largest tip
@@ -198,6 +213,11 @@ GROUP BY z."Zone"
 ORDER BY MAX(gt."tip_amount") DESC
 lIMIT 1;
 ```
+Output:
+
+
+![JFK Airport](img/query_4.png)
+
 * ## Answer: JFK Airport
 
 ### Question 7. Terraform Workflow
@@ -208,4 +228,6 @@ Which of the following sequences, **respectively**, describes the workflow for:
 3. Remove all resources managed by terraform`
 
 * ## Answer: terraform init, terraform apply -auto-aprove, terraform destroy
+
+## End Unit One
 
