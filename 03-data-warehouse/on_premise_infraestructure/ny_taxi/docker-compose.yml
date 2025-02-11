@@ -1,0 +1,49 @@
+services:
+  kestra:
+    image: kestra/kestra:latest
+    container_name: kestra-container
+    ports:
+      - "8080:8080"  # Interfaz web de Kestra
+    volumes:
+      - ./kestra-data:/data  # Persistencia de datos de Kestra
+      - /home/carlos/datos:/data  # Monta el directorio del servidor en /data dentro del contenedor
+    networks:
+      - app-network
+
+  duckdb:
+    image: qldrsc/duckdb:latest
+    container_name: duckdb-container
+    volumes:
+      - ./duckdb-data:/data  # Persistencia de datos de DuckDB
+    networks:
+      - app-network
+
+  minio:
+    image: minio/minio:latest
+    container_name: minio-container
+    ports:
+      - "9000:9000"  # Acceso al servicio MinIO
+      - "9001:9001"  # Acceso a la interfaz web de MinIO
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    volumes:
+      - ./minio-data:/data  # Persistencia de datos de MinIO
+    command: server /data --console-address ":9001"
+    networks:
+      - app-network
+
+  dbeaver:
+    image: dbeaver/cloudbeaver:latest
+    container_name: dbeaver-container
+    ports:
+      - "8081:8978"  # Acceso a la interfaz web de DBeaver
+    environment:
+      - CLOUDBEAVER_ADMIN_USER=admin
+      - CLOUDBEAVER_ADMIN_PASSWORD=admin
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
